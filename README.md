@@ -4,20 +4,21 @@
 
 ## Overview
 
+Merged Pull Requests/Forks:
+[feat: support for 9.2 #34](https://github.com/gaasedelen/patching/pull/34)
+[fix file mapping error #31](https://github.com/gaasedelen/patching/pull/31)
+[Added support for other architectures #37](https://github.com/gaasedelen/patching/pull/37)
+https://github.com/fjh658/patching
+
 Patching assembly code to change the behavior of an existing program is not uncommon in malware analysis, software reverse engineering, and broader domains of security research. This project extends the popular [IDA Pro](https://www.hex-rays.com/products/ida/) disassembler to create a more robust interactive binary patching workflow designed for rapid iteration.
 
 This project is currently powered by a minor [fork](https://github.com/gaasedelen/keystone) of the ubiquitous [Keystone Engine](https://github.com/keystone-engine/keystone), supporting x86/x64 and Arm/Arm64 patching with plans to enable the remaining Keystone architectures in a future release.
 
 Special thanks to [Hex-Rays](https://hex-rays.com/) for supporting the development of this plugin.
 
-## Releases
-
-* v0.2 -- Important bugfixes, IDA 9 compatibility
-* v0.1 -- Initial release
-
 # Installation
 
-This plugin requires IDA 7.6 and Python 3. It supports Windows, Linux, and macOS.
+This plugin requires IDA 7.6+ and Python 3. It supports Windows, Linux, and macOS and has been tested up through IDA 9.2 (PyQt5/PySide6 runtimes).
 
 *Please note, older versions of IDA (8.2 and below) are [not compatible](https://hex-rays.com/products/ida/news/8_2sp1/) with Python 3.11 and above.*
 
@@ -28,25 +29,14 @@ Run the following line in the IDA console to automatically install the plugin:
 ### Windows / Linux
 
 ```python
-import urllib.request as r; exec(r.urlopen('https://github.com/gaasedelen/patching/raw/main/install.py').read())
+import urllib.request as r; exec(r.urlopen('https://github.com/Zolura/ida-interactive-patching/raw/main/install.py').read())
 ```
 
 ### macOS
 
 ```python
-import urllib.request as r; exec(r.urlopen('https://github.com/gaasedelen/patching/raw/main/install.py', cafile='/etc/ssl/cert.pem').read())
+import urllib.request as r; exec(r.urlopen('https://github.com/Zolura/ida-interactive-patching/raw/main/install.py', cafile='/etc/ssl/cert.pem').read())
 ```
-
-## Manual Install
-
-Alternatively, the plugin can be manually installed by downloading the distributable plugin package for your respective platform from the [releases](https://github.com/gaasedelen/patching/releases) page and unzipping it to your plugins folder.
-
-It is __*strongly*__ recommended you install this plugin into IDA's user plugin directory:
-
-```python
-import ida_diskio, os; print(os.path.join(ida_diskio.get_user_idadir(), "plugins"))
-```
-
 # Usage
 
 The patching plugin will automatically load for supported architectures (x86/x64/Arm/Arm64) and inject relevant patching actions into the right click context menu of the IDA disassembly views:
@@ -114,8 +104,6 @@ While it is 'easy' to revert bytes back to their original value, it can be 'hard
 
 Time and motivation permitting, future work may include:
 
-* Enable the remaining major architectures supported by Keystone:
-  * PPC32 / PPC64 / MIPS32 / MIPS64 / SPARC / SystemZ
 * Multi instruction assembly (eg. `xor eax, eax; ret;`)
 * Multi line assembly (eg. shellcode / asm labels)
 * Interactive byte / data / string editing
@@ -129,8 +117,5 @@ Time and motivation permitting, future work may include:
      Raw:  mov     [rsp+20h], 3
   ```
 
-I welcome external contributions, issues, and feature requests. Please make any pull requests to the `develop` branch of this repository if you would like them to be considered for a future release.
-
-# Authors
-
+# Original Author
 * Markus Gaasedelen ([@gaasedelen](https://twitter.com/gaasedelen))
