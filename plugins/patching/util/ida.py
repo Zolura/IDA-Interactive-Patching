@@ -94,9 +94,14 @@ def apply_patches(filepath):
         def visitor(ea, file_offset, original_value, patched_value):
 
             # the patched byte does not have a know file address
-            if file_offset == ida_idaapi.BADADDR:
-                print("%08X: has no file mapping (original: %02X patched: %02X)...skipping...\n" % (ea, original_value, patched_value))
-                return 0
+            if file_offset == -1:
+                fpos = ea - ida_nalt.get_imagebase()
+                if fpos > 0:
+                    print(f"Manually calculated file_offset: {hex(fpos)}")
+                    file_offset=fpos
+                else:
+                    print("%08X: has no file mapping (original: %02X patched: %02X)...skipping...\n" % (ea, original_value, patched_value))
+                    return 0
 
             # seek to the patch location
             f.seek(file_offset)
@@ -164,7 +169,7 @@ def attach_submenu_to_popup(popup_handle, submenu_name, prev_action_name):
 
     # cast an IDA 'popup handle' pointer back to a QMenu object
     p_qmenu = ctypes.cast(int(popup_handle), ctypes.POINTER(ctypes.c_void_p))[0]
-    qmenu = sip.wrapinstance(int(p_qmenu), QtWidgets.QMenu)
+    qmenu = qt_wrapinstance(int(p_qmenu), QtWidgets.QMenu)
 
     # create a Qt (sub)menu that can be injected into an IDA-originating menu
     submenu = QtWidgets.QMenu(submenu_name)
@@ -191,6 +196,49 @@ def attach_submenu_to_popup(popup_handle, submenu_name, prev_action_name):
     #
 
     return submenu
+
+
+def focus_widget(widget=None, title=None, dock_to="IDA View-A"):
+    """
+    Attempt to bring the given widget (or widget title) to the foreground.
+    """
+    if not QT_AVAILABLE:
+        return False
+
+    if widget is None and title:
+        widget = ida_kernwin.find_widget(title)
+    elif widget is None:
+        return False
+
+    handled = False
+    display_widget = getattr(ida_kernwin, 'display_widget', None)
+    activate_widget = getattr(ida_kernwin, 'activate_widget', None)
+    set_dock_pos = getattr(ida_kernwin, 'set_dock_pos', None)
+
+    if display_widget:
+        try:
+            display_widget(widget, ida_kernwin.PluginForm.WOPN_RESTORE)
+            handled = True
+        except Exception:
+            pass
+
+    if activate_widget:
+        try:
+            activate_widget(widget, True)
+            handled = True
+        except Exception:
+            pass
+
+    if set_dock_pos and dock_to:
+        try:
+            ctrl_name = title or ida_kernwin.get_widget_title(widget)
+            if ctrl_name and ida_kernwin.find_widget(dock_to):
+                set_dock_pos(ctrl_name, dock_to, ida_kernwin.DP_TAB)
+                handled = True
+        except Exception:
+            pass
+
+    return handled
 
 #------------------------------------------------------------------------------
 # Symbols
@@ -893,7 +941,7 @@ def remove_ida_actions(popup):
 
     class FilterMenu(QtCore.QObject):
         def __init__(self, qmenu):
-            super(QtCore.QObject, self).__init__()
+            super().__init__()
             self.qmenu = qmenu
 
         def eventFilter(self, obj, event):
@@ -907,7 +955,7 @@ def remove_ida_actions(popup):
             return True
 
     p_qmenu = ctypes.cast(int(popup), ctypes.POINTER(ctypes.c_void_p))[0]
-    qmenu = sip.wrapinstance(int(p_qmenu), QtWidgets.QMenu)
+    qmenu = qt_wrapinstance(int(p_qmenu), QtWidgets.QMenu)
     filter = FilterMenu(qmenu)
     qmenu.installEventFilter(filter)
 
