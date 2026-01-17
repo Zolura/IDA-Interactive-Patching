@@ -49,8 +49,8 @@ SUPPORTED_ENVIRONMENT = bool(SUPPORTED_IDA and SUPPORTED_PYTHON)
 # IDA Plugin Installer
 #------------------------------------------------------------------------------
 
-PLUGIN_NAME = 'Patching'
-PLUGIN_URL = 'https://api.github.com/repos/gaasedelen/patching/releases/latest'
+PLUGIN_NAME = 'IDA Interactive Patching'
+PLUGIN_URL = 'https://api.github.com/repos/Zolura/IDA-Interactive-Patching/releases/latest'
 
 def install_plugin():
     """
