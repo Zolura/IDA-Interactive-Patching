@@ -73,7 +73,8 @@ class PatchingController(object):
             self.view = PatchingDockable(self)
             self.view.Show()
 
-    PatchingController._ACTIVE_INSTANCE = self
+        PatchingController._ACTIVE_INSTANCE = self
+
     #-------------------------------------------------------------------------
     # Actions
     #-------------------------------------------------------------------------
