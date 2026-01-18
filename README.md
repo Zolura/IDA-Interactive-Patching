@@ -5,6 +5,7 @@
 ## Overview
 
 Merged Pull Requests/Forks:
+
 [feat: support for 9.2 #34](https://github.com/gaasedelen/patching/pull/34)
 
 [fix file mapping error #31](https://github.com/gaasedelen/patching/pull/31)
@@ -42,7 +43,7 @@ import urllib.request as r; exec(r.urlopen('https://github.com/Zolura/ida-intera
 ```
 # Usage
 
-The patching plugin will automatically load for supported architectures (x86/x64/Arm/Arm64) and inject relevant patching actions into the right click context menu of the IDA disassembly views:
+The patching plugin will automatically load for supported architectures and inject relevant patching actions into the right click context menu of the IDA disassembly views:
 
 <p align="center"><img alt="Patching plugin right click context menu" src="screenshots/usage.gif"/></p>
 
