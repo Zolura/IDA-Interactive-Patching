@@ -6,13 +6,16 @@
 
 Merged Pull Requests/Forks:
 [feat: support for 9.2 #34](https://github.com/gaasedelen/patching/pull/34)
+
 [fix file mapping error #31](https://github.com/gaasedelen/patching/pull/31)
+
 [Added support for other architectures #37](https://github.com/gaasedelen/patching/pull/37)
-https://github.com/fjh658/patching
+
+[Fix IDA 9.2 UI compatibility & improve Assemble workflow](https://github.com/gaasedelen/patching/commit/4c93228cdbcb2b5f3c29197cf8b2e240b5f43656)
 
 Patching assembly code to change the behavior of an existing program is not uncommon in malware analysis, software reverse engineering, and broader domains of security research. This project extends the popular [IDA Pro](https://www.hex-rays.com/products/ida/) disassembler to create a more robust interactive binary patching workflow designed for rapid iteration.
 
-This project is currently powered by a minor [fork](https://github.com/gaasedelen/keystone) of the ubiquitous [Keystone Engine](https://github.com/keystone-engine/keystone), supporting x86/x64 and Arm/Arm64 patching with plans to enable the remaining Keystone architectures in a future release.
+This project is currently powered by a minor [fork](https://github.com/gaasedelen/keystone) of the ubiquitous [Keystone Engine](https://github.com/keystone-engine/keystone), supporting x86/x64, Arm/Arm64, PPC32, PPC64, MIPS32, MIPS64, SPARC, and SystemZ patching.
 
 Special thanks to [Hex-Rays](https://hex-rays.com/) for supporting the development of this plugin.
 
