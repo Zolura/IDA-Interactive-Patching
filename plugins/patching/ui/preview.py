@@ -151,7 +151,7 @@ class PatchingController(object):
         # refresh lines
         self._refresh_lines()
 
-            def focus_view(self):
+    def focus_view(self):
         """
         Focus the patching dialog if it is open.
         """

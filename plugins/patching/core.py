@@ -11,6 +11,7 @@ import ida_idaapi
 import ida_loader
 import ida_kernwin
 import ida_segment
+import ida_ida
 import idautils
 
 from patching.asm import *
@@ -493,7 +494,7 @@ class PatchingCore(object):
         #
 
         addresses = set(range(ea, ea+patch_size))
-        if is_range_patched(ea, ea+patch_size):
+        if self.is_range_patched(ea, ea+patch_size):
             self.patched_addresses |= addresses
 
         #
